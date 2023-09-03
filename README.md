@@ -1,3 +1,7 @@
+> Changes on this fork
+> * Markdown support added → #423
+> * New treesitter highlights added → #415
+
 # 🏙 Tokyo Night
 
 A dark and light [Neovim](https://github.com/neovim/neovim) theme written in
