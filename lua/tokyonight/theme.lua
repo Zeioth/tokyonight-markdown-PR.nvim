@@ -806,9 +806,14 @@ function M.setup()
     callback = function()
       if vim.bo.filetype == "markdown" then
         vim.defer_fn(function()
+          -- TASK:
+          vim.cmd(":silent! highlight clear MarkdownTask")
+          vim.cmd(":highlight MarkdownTask guifg=" .. c.teal .. " gui=bold")
+          vim.cmd(":syntax match MarkdownTask /\\cTask:/")
+
           -- TODO:
           vim.cmd(":silent! highlight clear MarkdownTodo")
-          vim.cmd(":highlight MarkdownTodo guifg=" .. c.teal .. " gui=bold")
+          vim.cmd(":highlight MarkdownTodo guifg=" .. c.yellow .. " gui=bold")
           vim.cmd(":syntax match MarkdownTodo /\\cTODO:/")
 
           -- NOTE:
@@ -830,6 +835,11 @@ function M.setup()
           vim.cmd(":silent! highlight clear MarkdownURL")
           vim.cmd(":highlight MarkdownURL guifg=" .. c.purple .. " gui=bold")
           vim.cmd(":syntax match MarkdownURL /\\cURL:/")
+
+          -- EXAMPLE:
+          vim.cmd(":silent! highlight clear MarkdownExample")
+          vim.cmd(":highlight MarkdownExample guifg=" .. c.magenta .. " gui=bold")
+          vim.cmd(":syntax match MarkdownExample /\\cExample:/")
         end, 100)
       end
     end,
