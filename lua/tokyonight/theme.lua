@@ -224,7 +224,7 @@ function M.setup()
     --- Functions
     ["@constructor"] = { fg = c.magenta }, -- For constructor calls and definitions: `= { }` in Lua, and Java constructors.
     ["@parameter"] = { fg = c.yellow }, -- For parameters of a function.
-    ["@parameter.builtin"] = { fg = "#efc890" }, -- For builtin parameters of a function, e.g. "..." or Smali's p[1-99]
+    ["@parameter.builtin"] = { fg = "#efc890" },
 
     -- TODO:
     -- ["@parameter.builtin"] = {}, -- For builtin parameters of a function, e.g. "..." or Smali's p[1-99]
