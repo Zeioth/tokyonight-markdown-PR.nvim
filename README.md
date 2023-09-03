@@ -1,5 +1,6 @@
 > Changes on this fork
 > * Markdown support added → #423
+> * Markdown notes highlights
 > * New treesitter highlights added → #415
 
 # 🏙 Tokyo Night
