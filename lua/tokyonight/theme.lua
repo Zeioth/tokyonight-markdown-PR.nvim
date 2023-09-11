@@ -821,6 +821,11 @@ function M.setup()
           vim.cmd(":highlight MarkdownTodo guifg=" .. c.yellow)
           vim.cmd(":syntax match MarkdownTodo /\\c\\w*Todo[^:]*:/")
 
+          -- BUG:
+          vim.cmd(":silent! highlight clear MarkdownBug")
+          vim.cmd(":highlight MarkdownBug guifg=" .. c.yellow)
+          vim.cmd(":syntax match MarkdownBug /\\c\\w*Bug[^:]*:/")
+
           -- FOCUS:
           vim.cmd(":silent! highlight clear MarkdownFocus")
           vim.cmd(":highlight MarkdownFocus guifg=" .. c.yellow)
