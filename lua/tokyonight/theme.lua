@@ -313,7 +313,7 @@ function M.setup()
     -- ["@lsp.typemod.variable.globalScope"] (global variables)
 
 		-- markdown
-		["@text.title.1.markdown"] = { fg = c.red, bold = true },
+		["@text.title.1.markdown"] = { fg = c.blue, bold = true },
 		["@text.title.2.markdown"] = { fg = c.yellow, bold = true },
 		["@text.title.3.markdown"] = { fg = c.green, bold = true},
 		["@text.title.4.markdown"] = { fg = c.teal, bold = true},
