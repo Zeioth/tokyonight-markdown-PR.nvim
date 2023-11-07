@@ -8,6 +8,7 @@ local M = {}
 ---@field bg string|nil
 ---@field sp string|nil
 ---@field style string|nil|Highlight
+---@field link string|nil
 
 ---@alias Highlights table<string,Highlight>
 
@@ -168,6 +169,8 @@ function M.setup()
     debugPC = { bg = c.bg_sidebar }, -- used for highlighting the current line in terminal-debug
     debugBreakpoint = { bg = util.darken(c.info, 0.1), fg = c.info }, -- used for breakpoint colors in terminal-debug
 
+    dosIniLabel = { link = "@property" },
+
     -- These groups are for the native LSP client. Some other LSP clients may
     -- use these groups, or use their own. Consult your LSP client's
     -- documentation.
@@ -224,10 +227,7 @@ function M.setup()
     --- Functions
     ["@constructor"] = { fg = c.magenta }, -- For constructor calls and definitions: `= { }` in Lua, and Java constructors.
     ["@parameter"] = { fg = c.yellow }, -- For parameters of a function.
-    ["@parameter.builtin"] = { fg = "#efc890" },
-
-    -- TODO:
-    -- ["@parameter.builtin"] = {}, -- For builtin parameters of a function, e.g. "..." or Smali's p[1-99]
+    ["@parameter.builtin"] = { fg = util.lighten(c.yellow, 0.8) }, -- For builtin parameters of a function, e.g. "..." or Smali's p[1-99]
 
     --- Keywords
     ["@keyword"] = { fg = c.purple, style = options.styles.keywords }, -- For keywords that don't fall in previous categories.
@@ -245,6 +245,7 @@ function M.setup()
     --- Identifiers
     ["@variable"] = { fg = c.fg, style = options.styles.variables }, -- Any variable name that does not have another highlight.
     ["@variable.builtin"] = { fg = c.red }, -- Variable names that are defined by the languages, like `this` or `self`.
+    ["@namespace.builtin"] = { fg = c.red }, -- Variable names that are defined by the languages, like `this` or `self`.
 
     --- Text
     -- ["@text.literal.markdown"] = { fg = c.blue },
@@ -288,7 +289,6 @@ function M.setup()
     ["@lsp.type.selfKeyword"] = { link = "@variable.builtin" },
     ["@lsp.type.selfTypeKeyword"] = { link = "@variable.builtin" },
     ["@lsp.type.string"] = { link = "@string" },
-    ["@lsp.type.string.rust"] = { link = "@string" },
     ["@lsp.type.typeAlias"] = { link = "@type.definition" },
     ["@lsp.type.unresolvedReference"] = { undercurl = true, sp = c.error },
     ["@lsp.type.variable"] = {}, -- use treesitter styles for regular variables
@@ -311,14 +311,6 @@ function M.setup()
     ["@lsp.typemod.variable.static"] = { link = "@constant" },
     -- NOTE: maybe add these with distinct highlights?
     -- ["@lsp.typemod.variable.globalScope"] (global variables)
-
-		-- markdown
-		["@text.title.1.markdown"] = { fg = c.blue, bold = true },
-		["@text.title.2.markdown"] = { fg = c.yellow, bold = true },
-		["@text.title.3.markdown"] = { fg = c.green, bold = true},
-		["@text.title.4.markdown"] = { fg = c.teal, bold = true},
-		["@text.title.5.markdown"] = { fg = c.magenta, bold = true},
-		["@text.title.6.markdown"] = { fg = c.purple, bold = true},
 
     -- ts-rainbow
     rainbowcol1 = { fg = c.red },
@@ -453,7 +445,10 @@ function M.setup()
     DashboardShortCut = { fg = c.cyan },
     DashboardHeader = { fg = c.blue },
     DashboardCenter = { fg = c.magenta },
-    DashboardFooter = { fg = c.yellow, italic = true },
+    DashboardFooter = { fg = c.blue1 },
+    DashboardKey = { fg = c.orange },
+    DashboardDesc = { fg = c.cyan },
+    DashboardIcon = { fg = c.cyan, bold = true },
 
     -- Alpha
     AlphaShortcut = { fg = c.orange },
@@ -594,67 +589,25 @@ function M.setup()
 
     CmpItemKindDefault = { fg = c.fg_dark, bg = c.none },
 
-    CmpItemKindKeyword = { fg = c.cyan, bg = c.none },
-
-    CmpItemKindVariable = { fg = c.magenta, bg = c.none },
-    CmpItemKindConstant = { fg = c.magenta, bg = c.none },
-    CmpItemKindReference = { fg = c.magenta, bg = c.none },
-    CmpItemKindValue = { fg = c.magenta, bg = c.none },
+    CmpItemKindCodeium = { fg = c.teal, bg = c.none },
     CmpItemKindCopilot = { fg = c.teal, bg = c.none },
+    CmpItemKindTabNine = { fg = c.teal, bg = c.none },
 
-    CmpItemKindFunction = { fg = c.blue, bg = c.none },
-    CmpItemKindMethod = { fg = c.blue, bg = c.none },
-    CmpItemKindConstructor = { fg = c.blue, bg = c.none },
-
-    CmpItemKindClass = { fg = c.orange, bg = c.none },
-    CmpItemKindInterface = { fg = c.orange, bg = c.none },
-    CmpItemKindStruct = { fg = c.orange, bg = c.none },
-    CmpItemKindEvent = { fg = c.orange, bg = c.none },
-    CmpItemKindEnum = { fg = c.orange, bg = c.none },
-    CmpItemKindUnit = { fg = c.orange, bg = c.none },
-
-    CmpItemKindModule = { fg = c.yellow, bg = c.none },
-
-    CmpItemKindProperty = { fg = c.green1, bg = c.none },
-    CmpItemKindField = { fg = c.green1, bg = c.none },
-    CmpItemKindTypeParameter = { fg = c.green1, bg = c.none },
-    CmpItemKindEnumMember = { fg = c.green1, bg = c.none },
-    CmpItemKindOperator = { fg = c.green1, bg = c.none },
-    CmpItemKindSnippet = { fg = c.dark5, bg = c.none },
+    -- headlines.nvim
+    CodeBlock = { bg = c.bg_dark },
 
     -- navic
-    NavicIconsFile = { fg = c.fg, bg = c.none },
-    NavicIconsModule = { fg = c.yellow, bg = c.none },
-    NavicIconsNamespace = { fg = c.fg, bg = c.none },
-    NavicIconsPackage = { fg = c.fg, bg = c.none },
-    NavicIconsClass = { fg = c.orange, bg = c.none },
-    NavicIconsMethod = { fg = c.blue, bg = c.none },
-    NavicIconsProperty = { fg = c.green1, bg = c.none },
-    NavicIconsField = { fg = c.green1, bg = c.none },
-    NavicIconsConstructor = { fg = c.orange, bg = c.none },
-    NavicIconsEnum = { fg = c.orange, bg = c.none },
-    NavicIconsInterface = { fg = c.orange, bg = c.none },
-    NavicIconsFunction = { fg = c.blue, bg = c.none },
-    NavicIconsVariable = { fg = c.magenta, bg = c.none },
-    NavicIconsConstant = { fg = c.magenta, bg = c.none },
-    NavicIconsString = { fg = c.green, bg = c.none },
-    NavicIconsNumber = { fg = c.orange, bg = c.none },
-    NavicIconsBoolean = { fg = c.orange, bg = c.none },
-    NavicIconsArray = { fg = c.orange, bg = c.none },
-    NavicIconsObject = { fg = c.orange, bg = c.none },
-    NavicIconsKey = { fg = c.purple, bg = c.none },
-    NavicIconsKeyword = { fg = c.purple, bg = c.none },
-    NavicIconsNull = { fg = c.orange, bg = c.none },
-    NavicIconsEnumMember = { fg = c.green1, bg = c.none },
-    NavicIconsStruct = { fg = c.orange, bg = c.none },
-    NavicIconsEvent = { fg = c.orange, bg = c.none },
-    NavicIconsOperator = { fg = c.fg, bg = c.none },
-    NavicIconsTypeParameter = { fg = c.green1, bg = c.none },
-    NavicText = { fg = c.fg, bg = c.none },
     NavicSeparator = { fg = c.fg, bg = c.none },
+    NavicText = { fg = c.fg, bg = c.none },
+
+    AerialNormal = { fg = c.fg, bg = c.none },
+    AerialGuide = { fg = c.fg_gutter },
+    AerialLine = { link = "LspInlayHint" },
 
     IndentBlanklineChar = { fg = c.fg_gutter, nocombine = true },
     IndentBlanklineContextChar = { fg = c.purple, nocombine = true },
+    IblIndent = { fg = c.fg_gutter, nocombine = true },
+    IblScope = { fg = c.purple, nocombine = true },
 
     -- Scrollbar
     ScrollbarHandle = { fg = c.none, bg = c.bg_highlight },
@@ -767,36 +720,47 @@ function M.setup()
 
     NoiceCompletionItemKindDefault = { fg = c.fg_dark, bg = c.none },
 
-    NoiceCompletionItemKindKeyword = { fg = c.cyan, bg = c.none },
-
-    NoiceCompletionItemKindVariable = { fg = c.magenta, bg = c.none },
-    NoiceCompletionItemKindConstant = { fg = c.magenta, bg = c.none },
-    NoiceCompletionItemKindReference = { fg = c.magenta, bg = c.none },
-    NoiceCompletionItemKindValue = { fg = c.magenta, bg = c.none },
-
-    NoiceCompletionItemKindFunction = { fg = c.blue, bg = c.none },
-    NoiceCompletionItemKindMethod = { fg = c.blue, bg = c.none },
-    NoiceCompletionItemKindConstructor = { fg = c.blue, bg = c.none },
-
-    NoiceCompletionItemKindClass = { fg = c.orange, bg = c.none },
-    NoiceCompletionItemKindInterface = { fg = c.orange, bg = c.none },
-    NoiceCompletionItemKindStruct = { fg = c.orange, bg = c.none },
-    NoiceCompletionItemKindEvent = { fg = c.orange, bg = c.none },
-    NoiceCompletionItemKindEnum = { fg = c.orange, bg = c.none },
-    NoiceCompletionItemKindUnit = { fg = c.orange, bg = c.none },
-
-    NoiceCompletionItemKindModule = { fg = c.yellow, bg = c.none },
-
-    NoiceCompletionItemKindProperty = { fg = c.green1, bg = c.none },
-    NoiceCompletionItemKindField = { fg = c.green1, bg = c.none },
-    NoiceCompletionItemKindTypeParameter = { fg = c.green1, bg = c.none },
-    NoiceCompletionItemKindEnumMember = { fg = c.green1, bg = c.none },
-    NoiceCompletionItemKindOperator = { fg = c.green1, bg = c.none },
-    NoiceCompletionItemKindSnippet = { fg = c.dark5, bg = c.none },
-
     TreesitterContext = { bg = util.darken(c.fg_gutter, 0.8) },
     Hlargs = { fg = c.yellow },
     -- TreesitterContext = { bg = util.darken(c.bg_visual, 0.4) },
+  }
+
+  -- lsp symbol kind and completion kind highlights
+  local kinds = {
+    Array = "@punctuation.bracket",
+    Boolean = "@boolean",
+    Class = "@type",
+    Color = "Special",
+    Constant = "@constant",
+    Constructor = "@constructor",
+    Enum = "@lsp.type.enum",
+    EnumMember = "@lsp.type.enumMember",
+    Event = "Special",
+    Field = "@field",
+    File = "Normal",
+    Folder = "Directory",
+    Function = "@function",
+    Interface = "@lsp.type.interface",
+    Key = "@field",
+    Keyword = "@lsp.type.keyword",
+    Method = "@method",
+    Module = "@namespace",
+    Namespace = "@namespace",
+    Null = "@constant.builtin",
+    Number = "@number",
+    Object = "@constant",
+    Operator = "@operator",
+    Package = "@namespace",
+    Property = "@property",
+    Reference = "@text.reference",
+    Snippet = "Conceal",
+    String = "@string",
+    Struct = "@lsp.type.struct",
+    Unit = "@lsp.type.struct",
+    Text = "@text",
+    TypeParameter = "@lsp.type.typeParameter",
+    Variable = "@variable",
+    Value = "@string",
   }
 
   -- Markdown notes highlights
@@ -859,6 +823,23 @@ function M.setup()
       end
     end,
   })
+
+  local kind_groups = { "NavicIcons%s", "Aerial%sIcon", "CmpItemKind%s", "NoiceCompletionItemKind%s" }
+  for kind, link in pairs(kinds) do
+    local base = "LspKind" .. kind
+    theme.highlights[base] = { link = link }
+    for _, plugin in pairs(kind_groups) do
+      theme.highlights[plugin:format(kind)] = { link = base }
+    end
+  end
+
+  local markdown_rainbow = { c.blue, c.yellow, c.green, c.teal, c.magenta, c.purple }
+
+  for i, color in ipairs(markdown_rainbow) do
+    theme.highlights["@text.title." .. i .. ".markdown"] = { fg = color, bold = true }
+    theme.highlights["Headline" .. i] = { bg = util.darken(color, 0.05) }
+  end
+  theme.highlights["Headline"] = { link = "Headline1" }
 
   if not vim.diagnostic then
     local severity_map = {

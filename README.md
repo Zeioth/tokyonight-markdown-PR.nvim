@@ -49,6 +49,7 @@ TokyoNight](https://github.com/enkia/tokyo-night-vscode-theme) theme. Includes
 - [Fish Themes](https://fishshell.com/docs/current/interactive.html#syntax-highlighting) ([fish_themes](extras/fish_themes))
 - [Foot](https://codeberg.org/dnkl/foot) ([foot](extras/foot))
 - [GitUI](https://github.com/extrawurst/gitui) ([gitui](extras/gitui))
+- [Helix](https://helix-editor.com/) ([helix](extras/helix))
 - [iTerm](https://iterm2.com/) ([iterm](extras/iterm))
 - [Kitty](https://sw.kovidgoyal.net/kitty/conf.html) ([kitty](extras/kitty))
 - [Lua Table for testing](https://www.lua.org) ([lua](extras/lua))
@@ -275,7 +276,7 @@ set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{25
 
 Extra color configs for [Kitty](https://sw.kovidgoyal.net/kitty/conf.html),
 [Alacritty](https://github.com/alacritty/alacritty),
-[Fish](https://www.lua.org/), [WezTerm](https://wezfurlong.org/wezterm/config/files.html),
+[Fish](https://fishshell.com/docs/current/index.html), [WezTerm](https://wezfurlong.org/wezterm/config/files.html),
 [iTerm](https://iterm2.com/) and [foot](https://codeberg.org/dnkl/foot) can be
 found in [extras](extras/). To use them, refer to their respective
 documentation.
@@ -305,7 +306,7 @@ How to add a new extra template:
 1. Create a file like `lua/tokyonight/extra/cool-app.lua`.
 2. Add the name and output file extension to the `extras` table in
    `lua/tokyonight/extra/init.lua`.
-3. Run the following command to generate new [extra](#-extras) themes:
+3. Run the following command to generate new [extra](#-extras) themes from the tokyonight plugin directory:
 
    ```sh
    nvim --headless "+lua require('tokyonight.extra').setup()" +qa

@@ -1,5 +1,82 @@
 # Changelog
 
+## [2.9.0](https://github.com/folke/tokyonight.nvim/compare/v2.8.0...v2.9.0) (2023-10-16)
+
+
+### Features
+
+* added support for headlines.nvim ([b7df2e6](https://github.com/folke/tokyonight.nvim/commit/b7df2e60e03d31811460a1aa8b8a537daf9de6a7))
+
+
+### Bug Fixes
+
+* **headlines:** make headlines a little less pronounced ([868c050](https://github.com/folke/tokyonight.nvim/commit/868c0506bcea01d1c7b4746926dbc7236ad8f347))
+
+## [2.8.0](https://github.com/folke/tokyonight.nvim/compare/v2.7.0...v2.8.0) (2023-10-14)
+
+
+### Features
+
+* better wezterm theme ([99e9b2c](https://github.com/folke/tokyonight.nvim/commit/99e9b2cb3afd3ce7acd95fa640258c26d6c7d9e5))
+* cmp TabNine kind color ([2947de3](https://github.com/folke/tokyonight.nvim/commit/2947de32282ec29fd8bdc4f69cf6894fb48ad92f))
+* **theme:** added aerial highlights ([06b7fc9](https://github.com/folke/tokyonight.nvim/commit/06b7fc94ee19faf8f57714251402d135c520cabc))
+
+
+### Bug Fixes
+
+* **aerial:** aerial kind colors ([8389146](https://github.com/folke/tokyonight.nvim/commit/838914625125a931817bdf585f80301555970aee))
+
+## [2.7.0](https://github.com/folke/tokyonight.nvim/compare/v2.6.0...v2.7.0) (2023-10-09)
+
+
+### Features
+
+* **sublime:** better colors for delta/bat/sublime/textmate ([bf36b8f](https://github.com/folke/tokyonight.nvim/commit/bf36b8fba2578258a00e4dd61020bc3c462774bc))
+
+## [2.6.0](https://github.com/folke/tokyonight.nvim/compare/v2.5.0...v2.6.0) (2023-10-08)
+
+
+### Features
+
+* **cmp:** codium kind color ([19e8bf4](https://github.com/folke/tokyonight.nvim/commit/19e8bf4014d6c4e0a9db07e449860c223ed21876))
+
+## [2.5.0](https://github.com/folke/tokyonight.nvim/compare/v2.4.0...v2.5.0) (2023-10-08)
+
+
+### Features
+
+* **dosini:** better hl ([6151fb4](https://github.com/folke/tokyonight.nvim/commit/6151fb43f30ceceac7377c7e0920fcc5c9a68967))
+
+## [2.4.0](https://github.com/folke/tokyonight.nvim/compare/v2.3.1...v2.4.0) (2023-10-04)
+
+
+### Features
+
+* **dashboard:** better highlights for dashboard.nvim ([1a0e18f](https://github.com/folke/tokyonight.nvim/commit/1a0e18fd85a07108472a1babeef6d9bc4e922703))
+
+## [2.3.1](https://github.com/folke/tokyonight.nvim/compare/v2.3.0...v2.3.1) (2023-10-03)
+
+
+### Bug Fixes
+
+* **treesitter:** namespace.builtin ([b6bca90](https://github.com/folke/tokyonight.nvim/commit/b6bca9028ff45dd74989c156e62a579c8b40cded))
+
+## [2.3.0](https://github.com/folke/tokyonight.nvim/compare/v2.2.0...v2.3.0) (2023-09-28)
+
+
+### Features
+
+* **indent-blankline:** new hl groups ([9699aa2](https://github.com/folke/tokyonight.nvim/commit/9699aa23c9832d81e4fdd43866d143e89c29349f))
+
+## [2.2.0](https://github.com/folke/tokyonight.nvim/compare/v2.1.0...v2.2.0) (2023-09-25)
+
+
+### Features
+
+* Add Helix extras ([#409](https://github.com/folke/tokyonight.nvim/issues/409)) ([a345a21](https://github.com/folke/tokyonight.nvim/commit/a345a21966ed7c1ff26f247d4b20a4f307bedc79))
+* **lsp, treesitter:** add more highlights ([#415](https://github.com/folke/tokyonight.nvim/issues/415)) ([1ddb45d](https://github.com/folke/tokyonight.nvim/commit/1ddb45d47f96c7e060de8a2eae0902fa70788c55))
+* **markdown:** added different colors for each headline ([#423](https://github.com/folke/tokyonight.nvim/issues/423)) ([ad7e8ff](https://github.com/folke/tokyonight.nvim/commit/ad7e8fff8dce637ec2c5aa984553b3d91dc55b37))
+
 ## [2.1.0](https://github.com/folke/tokyonight.nvim/compare/v2.0.0...v2.1.0) (2023-08-29)
 
 
