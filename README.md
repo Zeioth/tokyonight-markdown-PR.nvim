@@ -1,5 +1,5 @@
 > Changes on this fork
-> * Markdown support added → #423
+> * Markdown rainbow header highlights → #423
 > * Markdown notes highlights → #441
 > * New treesitter highlights added → #415
 
