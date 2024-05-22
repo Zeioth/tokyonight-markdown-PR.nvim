@@ -53,7 +53,9 @@ function M.setup()
     SignColumnSB = { bg = c.bg_sidebar, fg = c.fg_gutter }, -- column where |signs| are displayed
     Substitute = { bg = c.red, fg = c.black }, -- |:substitute| replacement text highlighting
     LineNr = { fg = c.fg_gutter }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-    CursorLineNr = { fg = c.dark5 }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+    CursorLineNr = { fg = c.orange, bold = true }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+    LineNrAbove = { fg = c.fg_gutter },
+    LineNrBelow = { fg = c.fg_gutter },
     MatchParen = { fg = c.orange, bold = true }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     ModeMsg = { fg = c.fg_dark, bold = true }, -- 'showmode' message (e.g., "-- INSERT -- ")
     MsgArea = { fg = c.fg_dark }, -- Area for messages and cmdline
@@ -132,13 +134,13 @@ function M.setup()
     Special = { fg = c.blue1 }, -- (preferred) any special symbol
     -- SpecialChar   = { }, --  special character in a constant
     -- Tag           = { }, --    you can use CTRL-] on this
-    -- Delimiter     = { }, --  character that needs attention
+    Delimiter = { link = "Special" }, --  character that needs attention
     -- SpecialComment= { }, -- special things inside a comment
     Debug = { fg = c.orange }, --    debugging statements
 
     Underlined = { underline = true }, -- (preferred) text that stands out, HTML links
-    Bold = { bold = true },
-    Italic = { italic = true },
+    Bold = { bold = true, fg = c.fg }, -- (preferred) any bold text
+    Italic = { italic = true, fg = c.fg }, -- (preferred) any italic text
 
     -- ("Ignore", below, may be invisible...)
     -- Ignore = { }, -- (preferred) left blank, hidden  |hl-Ignore|
@@ -251,6 +253,7 @@ function M.setup()
     ["@markup.math"] = { link = "Special" },
     ["@markup.strong"] = { bold = true },
     ["@markup.emphasis"] = { italic = true },
+    ["@markup.italic"] = { italic = true },
     ["@markup.strikethrough"] = { strikethrough = true },
     ["@markup.underline"] = { underline = true },
     ["@markup.heading"] = { link = "Title" },
@@ -273,6 +276,7 @@ function M.setup()
     --- Punctuation
     ["@punctuation.delimiter"] = { fg = c.blue5 }, -- For delimiters ie: `.`
     ["@punctuation.bracket"] = { fg = c.fg_dark }, -- For brackets and parens.
+    ["@punctuation.special"] = { fg = c.blue5 }, -- For special symbols (e.g. `{}` in string interpolation)
     ["@markup.list"] = { fg = c.blue5 }, -- For special punctutation that does not fall in the catagories before.
     ["@markup.list.markdown"] = { fg = c.orange, bold = true },
 
@@ -366,6 +370,9 @@ function M.setup()
     -- NOTE: maybe add these with distinct highlights?
     -- ["@lsp.typemod.variable.globalScope"] (global variables)
 
+    -- Python
+    ["@lsp.type.namespace.python"] = { link = "@variable" },
+
     -- ts-rainbow
     rainbowcol1 = { fg = c.red },
     rainbowcol2 = { fg = c.yellow },
@@ -456,9 +463,17 @@ function M.setup()
     GitSignsChange = { fg = c.gitSigns.change }, -- diff mode: Changed line |diff.txt|
     GitSignsDelete = { fg = c.gitSigns.delete }, -- diff mode: Deleted line |diff.txt|
 
+    -- mini.diff
+    MiniDiffSignAdd = { fg = c.gitSigns.add }, -- diff mode: Added line |diff.txt|
+    MiniDiffSignChange = { fg = c.gitSigns.change }, -- diff mode: Changed line |diff.txt|
+    MiniDiffSignDelete = { fg = c.gitSigns.delete }, -- diff mode: Deleted line |diff.txt|
+
     -- Telescope
     TelescopeBorder = { fg = c.border_highlight, bg = c.bg_float },
     TelescopeNormal = { fg = c.fg, bg = c.bg_float },
+    TelescopePromptBorder = { fg = c.orange, bg = c.bg_float },
+    TelescopePromptTitle = { fg = c.orange, bg = c.bg_float },
+    TelescopeResultsComment = { fg = c.dark3 },
 
     -- NvimTree
     NvimTreeNormal = { fg = c.fg_sidebar, bg = c.bg_sidebar },
@@ -643,6 +658,9 @@ function M.setup()
 
     CmpItemKindDefault = { fg = c.fg_dark, bg = c.none },
 
+    NeoTreeGitModified = { fg = c.orange },
+    NeoTreeGitUntracked = { fg = c.magenta },
+
     CmpItemKindCodeium = { fg = c.teal, bg = c.none },
     CmpItemKindCopilot = { fg = c.teal, bg = c.none },
     CmpItemKindTabNine = { fg = c.teal, bg = c.none },
@@ -659,9 +677,11 @@ function M.setup()
     AerialLine = { link = "LspInlayHint" },
 
     IndentBlanklineChar = { fg = c.fg_gutter, nocombine = true },
-    IndentBlanklineContextChar = { fg = c.purple, nocombine = true },
+    IndentBlanklineContextChar = { fg = c.blue1, nocombine = true },
     IblIndent = { fg = c.fg_gutter, nocombine = true },
-    IblScope = { fg = c.purple, nocombine = true },
+    IblScope = { fg = c.blue1, nocombine = true },
+    IndentLine = { fg = c.fg_gutter, nocombine = true },
+    IndentLineCurrent = { fg = c.blue1, nocombine = true },
 
     -- Scrollbar
     ScrollbarHandle = { fg = c.none, bg = c.bg_highlight },
@@ -821,9 +841,9 @@ function M.setup()
   vim.api.nvim_create_autocmd({ "BufReadPost", "InsertLeave" }, {
     desc = "Highligh markdown notes.",
     group = vim.api.nvim_create_augroup("markdown_notes_hl", { clear = true }),
-    callback = function()
+    callback = function(event)
       if vim.bo.filetype == "markdown" then
-        vim.defer_fn(function()
+        local function highlight_markdown_notes()
           -- TASK:
           vim.cmd(":silent! highlight clear MarkdownTask")
           vim.cmd(":highlight MarkdownTask guifg=" .. c.teal)
@@ -843,6 +863,11 @@ function M.setup()
           vim.cmd(":silent! highlight clear MarkdownBug")
           vim.cmd(":highlight MarkdownBug guifg=" .. c.yellow)
           vim.cmd(":syntax match MarkdownBug /\\c\\w*Bug[^:]*:/")
+
+          -- DEPRECATED:
+          vim.cmd(":silent! highlight clear MarkdownDeprecated")
+          vim.cmd(":highlight MarkdownDeprecated guifg=" .. c.yellow)
+          vim.cmd(":syntax match MarkdownDeprecated /\\c\\w*Deprecated[^:]*:/")
 
           -- FOCUS:
           vim.cmd(":silent! highlight clear MarkdownFocus")
@@ -873,7 +898,31 @@ function M.setup()
           vim.cmd(":silent! highlight clear MarkdownExample")
           vim.cmd(":highlight MarkdownExample guifg=" .. c.magenta)
           vim.cmd(":syntax match MarkdownExample /\\c\\w*Example[^:]*:/")
-        end, 100)
+        end
+
+        -- try to run the function every n ms for duration.
+        local function try_every_n_ms(interval, duration, function_to_run)
+          local uv = vim.uv or vim.loop
+          local elapsed = 0
+          local timer = uv.new_timer()
+          timer:start(0, interval,
+            vim.schedule_wrap(function()
+              if elapsed >= duration then
+                timer:stop()
+                timer:close()
+              else
+                function_to_run()
+                elapsed = elapsed + interval
+              end
+            end)
+          )
+        end
+
+        -- run
+        if event.event == "InsertLeave" then highlight_markdown_notes() end
+        if event.event == "BufReadPost" then
+          try_every_n_ms(25, 250, highlight_markdown_notes)
+        end
       end
     end,
   })

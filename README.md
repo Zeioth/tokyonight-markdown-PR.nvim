@@ -1,8 +1,3 @@
-> Changes on this fork
-> * Markdown support added → #423
-> * Markdown notes highlights → #441
-> * New treesitter highlights added → #415
-
 # 🏙 Tokyo Night
 
 A dark and light [Neovim](https://github.com/neovim/neovim) theme written in
@@ -63,13 +58,15 @@ TokyoNight](https://github.com/enkia/tokyo-night-vscode-theme) theme. Includes
 - [Windows Terminal](https://aka.ms/terminal-documentation) ([windows_terminal](extras/windows_terminal))
 - [Xfce Terminal](https://docs.xfce.org/apps/terminal/advanced) ([xfceterm](extras/xfceterm))
 - [Xresources](https://wiki.archlinux.org/title/X_resources) ([xresources](extras/xresources))
+- [Yazi](https://github.com/sxyazi/yazi) ([yazi](extras/yazi))
 - [Zathura](https://pwmt.org/projects/zathura/) ([zathura](extras/zathura))
+- [Zellij](https://zellij.dev/) ([zellij](extras/zellij))
 <!-- extras:end -->
 
 ## ⚡️ Requirements
 
 - [Neovim](https://github.com/neovim/neovim) >=
-  [0.7.2](https://github.com/neovim/neovim/releases/tag/v0.7.2)
+  [0.8.0](https://github.com/neovim/neovim/releases/tag/v0.8.0)
 
 ## 📦 Installation
 
