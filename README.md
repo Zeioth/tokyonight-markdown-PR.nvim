@@ -1,3 +1,8 @@
+> Changes on this fork
+> * Markdown rainbow header highlights → #423
+> * Markdown notes highlights → #441
+> * New treesitter highlights added → #415
+
 # 🏙 Tokyo Night
 
 A dark and light [Neovim](https://github.com/neovim/neovim) theme written in
