@@ -821,9 +821,9 @@ function M.setup()
   vim.api.nvim_create_autocmd({ "BufReadPost", "InsertLeave" }, {
     desc = "Highligh markdown notes.",
     group = vim.api.nvim_create_augroup("markdown_notes_hl", { clear = true }),
-    callback = function()
+    callback = function(event)
       if vim.bo.filetype == "markdown" then
-        vim.defer_fn(function()
+        local function highlight_markdown_notes()
           -- TASK:
           vim.cmd(":silent! highlight clear MarkdownTask")
           vim.cmd(":highlight MarkdownTask guifg=" .. c.teal)
@@ -848,7 +848,7 @@ function M.setup()
           vim.cmd(":silent! highlight clear MarkdownDeprecated")
           vim.cmd(":highlight MarkdownDeprecated guifg=" .. c.yellow)
           vim.cmd(":syntax match MarkdownDeprecated /\\c\\w*Deprecated[^:]*:/")
-                  
+
           -- FOCUS:
           vim.cmd(":silent! highlight clear MarkdownFocus")
           vim.cmd(":highlight MarkdownFocus guifg=" .. c.yellow)
@@ -878,7 +878,31 @@ function M.setup()
           vim.cmd(":silent! highlight clear MarkdownExample")
           vim.cmd(":highlight MarkdownExample guifg=" .. c.magenta)
           vim.cmd(":syntax match MarkdownExample /\\c\\w*Example[^:]*:/")
-        end, 100)
+        end
+
+        -- try to run the function every n ms for duration.
+        local function try_every_n_ms(interval, duration, function_to_run)
+          local uv = vim.uv or vim.loop
+          local elapsed = 0
+          local timer = uv.new_timer()
+          timer:start(0, interval,
+            vim.schedule_wrap(function()
+              if elapsed >= duration then
+                timer:stop()
+                timer:close()
+              else
+                function_to_run()
+                elapsed = elapsed + interval
+              end
+            end)
+          )
+        end
+
+        -- run
+        if event.event == "InsertLeave" then highlight_markdown_notes() end
+        if event.event == "BufReadPost" then
+          try_every_n_ms(25, 250, highlight_markdown_notes)
+        end
       end
     end,
   })
