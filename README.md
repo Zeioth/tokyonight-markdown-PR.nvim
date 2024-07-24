@@ -1,3 +1,5 @@
+This fork is currently discontinued, as the new plugin [markdown.nvim](https://github.com/MeanderingProgrammer/markdown.nvim) covers the case of use in a colorscheme independant way.
+
 > Changes on this fork
 > * Markdown rainbow header highlights → #423
 > * Markdown notes highlights → #441
